@@ -2,9 +2,14 @@ import { GetStaticProps } from 'next';
 
 import { createClient } from '@prismicio/client';
 import { FiCalendar, FiUser } from 'react-icons/fi';
+import { format } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
 import { SliceZone } from '@prismicio/react';
 import Head from 'next/head';
 import { AiOutlineCalendar } from 'react-icons/all';
+import { formatDate } from '@prismicio/types-internal/lib/validators/function';
+import item from 'slice-machine-ui/components/AppLayout/Navigation/Menu/Navigation/Item';
+import Link from 'next/link';
 import sm from '../../sm.json';
 import { components } from '../../slices';
 
@@ -32,29 +37,31 @@ interface HomeProps {
   postsPagination: PostPagination;
 }
 
-export default function Home({ page }) {
-  console.log(page);
-
+export default function Home({ postsPagination }: HomeProps) {
   const renderPosts = () => {
-    const posts = page.results;
     return (
       <>
-        {posts.map(post => {
+        {postsPagination.results.map(post => {
           return (
-            <div className={styles.postItem}>
-              <h2>{post.data.title}</h2>
-              <p>{post.data.subtitle}</p>
-              <div className={styles.dataContainer}>
-                <div>
-                  <FiCalendar />
-                  <span>15 Mar 2021</span>
-                </div>
-                <div>
-                  <FiUser />
-                  <span>{post.data.author}</span>
+            <Link href={`/post/${post.uid}`} prefetch>
+              <div
+                className={styles.postItem}
+                key={Math.random() * Math.random()}
+              >
+                <h2>{post.data.title}</h2>
+                <p>{post.data.subtitle}</p>
+                <div className={styles.dataContainer}>
+                  <div>
+                    <FiCalendar />
+                    <span>{post.first_publication_date}</span>
+                  </div>
+                  <div>
+                    <FiUser />
+                    <span>{post.data.author}</span>
+                  </div>
                 </div>
               </div>
-            </div>
+            </Link>
           );
         })}
       </>
@@ -75,11 +82,32 @@ export default function Home({ page }) {
 
 export const getStaticProps: GetStaticProps = async () => {
   const client = createClient(sm.apiEndpoint);
-  const page = await client.getByType('post');
+  const page = await client.getByType('post', {
+    pageSize: 4,
+    fetchLinks: ['post.title', 'post.subtitle'],
+  });
+
+  const posts = page.results.map(post => {
+    const date = format(new Date(post.last_publication_date), 'dd MMM yyyy', {
+      locale: ptBR,
+    });
+    return {
+      uid: post.uid,
+      first_publication_date: date,
+      data: {
+        title: post.data.title as string,
+        subtitle: post.data.subtitle as string,
+        author: post.data.author as string,
+      },
+    };
+  });
 
   return {
     props: {
-      page,
+      postsPagination: {
+        nextPage: page.next_page,
+        results: posts,
+      },
     },
   };
 };
