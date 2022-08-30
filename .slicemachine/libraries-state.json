@@ -1,0 +1,78 @@
+{
+  "slices": {
+    "components": {
+      "posts_slice": {
+        "library": "slices",
+        "id": "posts_slice",
+        "name": "PostsSlice",
+        "description": "PostsSlice",
+        "model": {
+          "id": "posts_slice",
+          "type": "SharedSlice",
+          "name": "PostsSlice",
+          "description": "PostsSlice",
+          "variations": [
+            {
+              "id": "default",
+              "name": "Default",
+              "docURL": "...",
+              "version": "sktwi1xtmkfgx8626",
+              "description": "PostsSlice",
+              "primary": {
+                "title": {
+                  "type": "StructuredText",
+                  "config": {
+                    "single": "heading1",
+                    "label": "Title",
+                    "placeholder": "This is where it all begins..."
+                  }
+                },
+                "description": {
+                  "type": "StructuredText",
+                  "config": {
+                    "single": "paragraph",
+                    "label": "Description",
+                    "placeholder": "A nice description of your feature"
+                  }
+                }
+              },
+              "items": {},
+              "imageUrl": "https://images.prismic.io/slice-machine/621a5ec4-0387-4bc5-9860-2dd46cbc07cd_default_ss.png?auto=compress,format"
+            }
+          ]
+        },
+        "mocks": {
+          "default": {
+            "variation": "default",
+            "version": "sktwi1xtmkfgx8626",
+            "items": [
+              {}
+            ],
+            "primary": {
+              "title": [
+                {
+                  "type": "heading1",
+                  "text": "Moment",
+                  "spans": []
+                }
+              ],
+              "description": [
+                {
+                  "type": "paragraph",
+                  "text": "Mollit id fugiat velit consequat ad ea commodo nostrud pariatur eiusmod et. Labore esse quis mollit excepteur ipsum. Proident ullamco consequat amet sint cupidatat pariatur laborum ad ipsum sit ullamco anim consequat sunt sint.",
+                  "spans": []
+                }
+              ]
+            },
+            "slice_type": "posts_slice"
+          }
+        },
+        "meta": {
+          "fileName": "index",
+          "extension": "js"
+        },
+        "screenshotPaths": {}
+      }
+    }
+  }
+}
