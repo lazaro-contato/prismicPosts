@@ -1,1 +1,58 @@
-// TODO
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 100px;
+}
+
+.content {
+  max-width: 700px;
+  width: 100%;
+  cursor: pointer;
+
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+
+}
+
+.postItem {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  > h2 {
+    font-size: 28px;
+    color: var(--heading);
+    transition: color 0.2s;
+
+    &:hover {
+      color: var(--highlight);
+    }
+  }
+
+  p {
+    font-size: 18px;
+    color: var(--body);
+
+  }
+
+  span {
+    font-size: 14px;
+    color: var(--body);
+  }
+}
+
+.dataContainer {
+  display: flex;
+  gap: 26px;
+  margin-top: 16px;
+
+  div {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+}
+
+

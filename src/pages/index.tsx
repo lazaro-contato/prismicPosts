@@ -1,8 +1,10 @@
 import { GetStaticProps } from 'next';
 
 import { createClient } from '@prismicio/client';
+import { FiCalendar, FiUser } from 'react-icons/fi';
 import { SliceZone } from '@prismicio/react';
 import Head from 'next/head';
+import { AiOutlineCalendar } from 'react-icons/all';
 import sm from '../../sm.json';
 import { components } from '../../slices';
 
@@ -32,11 +34,41 @@ interface HomeProps {
 
 export default function Home({ page }) {
   console.log(page);
+
+  const renderPosts = () => {
+    const posts = page.results;
+    return (
+      <>
+        {posts.map(post => {
+          return (
+            <div className={styles.postItem}>
+              <h2>{post.data.title}</h2>
+              <p>{post.data.subtitle}</p>
+              <div className={styles.dataContainer}>
+                <div>
+                  <FiCalendar />
+                  <span>15 Mar 2021</span>
+                </div>
+                <div>
+                  <FiUser />
+                  <span>{post.data.author}</span>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </>
+    );
+  };
+
   return (
     <>
       <Head>
         <title>spacetraveling</title>
       </Head>
+      <main className={styles.container}>
+        <section className={styles.content}>{renderPosts()}</section>
+      </main>
     </>
   );
 }
