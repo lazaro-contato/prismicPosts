@@ -1,20 +1,11 @@
 import { GetStaticProps } from 'next';
 
-import { createClient } from '@prismicio/client';
 import { FiCalendar, FiUser } from 'react-icons/fi';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
-import { SliceZone } from '@prismicio/react';
 import Head from 'next/head';
-import { AiOutlineCalendar } from 'react-icons/all';
-import { formatDate } from '@prismicio/types-internal/lib/validators/function';
-import item from 'slice-machine-ui/components/AppLayout/Navigation/Menu/Navigation/Item';
 import Link from 'next/link';
-import sm from '../../sm.json';
-import { components } from '../../slices';
-
-import { getPrismicClient } from '../services/prismic';
-
+import { createClient } from '../../prismicio';
 import commonStyles from '../styles/common.module.scss';
 import styles from './home.module.scss';
 
@@ -38,6 +29,7 @@ interface HomeProps {
 }
 
 export default function Home({ postsPagination }: HomeProps) {
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   const renderPosts = () => {
     return (
       <>
@@ -80,8 +72,8 @@ export default function Home({ postsPagination }: HomeProps) {
   );
 }
 
-export const getStaticProps: GetStaticProps = async () => {
-  const client = createClient(sm.apiEndpoint);
+export const getStaticProps: GetStaticProps = async ({ previewData }) => {
+  const client = createClient(previewData);
   const page = await client.getByType('post', {
     pageSize: 4,
     fetchLinks: ['post.title', 'post.subtitle'],

@@ -1,9 +1,13 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
+import * as prismicH from '@prismicio/helpers';
 
+import { format } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
 import { getPrismicClient } from '../../services/prismic';
 
 import commonStyles from '../../styles/common.module.scss';
 import styles from './post.module.scss';
+import { createClient, linkResolver } from '../../../prismicio';
 
 interface Post {
   first_publication_date: string | null;
@@ -26,20 +30,39 @@ interface PostProps {
   post: Post;
 }
 
-export default function Post() {
-  // TODO
+export default function Post({ page }) {
+  console.log(page);
+  return <div>vamos vamos</div>;
 }
 
-export const getStaticPaths = async () => {
-  const prismic = getPrismicClient({});
-  const posts = await prismic.getByType(TODO);
+export const getStaticProps: GetStaticProps = async ({
+  previewData,
+  params,
+}) => {
+  const client = createClient({ previewData });
+  const uid = params.slug as string;
+  const page = await client.getByUID('post', uid);
 
-  // TODO
+  return {
+    props: {
+      page,
+    },
+  };
 };
 
-export const getStaticProps = async ({ params }) => {
-  const prismic = getPrismicClient({});
-  const response = await prismic.getByUID(TODO);
+export const getStaticPaths: GetStaticPaths = async () => {
+  const client = createClient();
+  //
+  // const pages = await client.getByUID('post');
+  // console.log(pages);
 
-  // TODO
+  return {
+    paths: [],
+    fallback: true,
+  };
 };
+
+// return {
+//   paths: pages.map(page => prismicH.asLink(page)),
+//   fallback: true,
+// };
