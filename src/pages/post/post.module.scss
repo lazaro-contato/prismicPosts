@@ -1,6 +1,54 @@
+
+.imageContainer {
+  width: 100%;
+  height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100%;
+}
+
 .container {
+  display: flex;
+  flex-direction: column;
   max-width: 700px;
   height: 100%;
-  margin: 0 auto;
+  margin: 80px auto;
   padding: 0 2rem;
+  gap: 24px;
+
+  h1 {
+    font-size: 48px;
+    font-weight: bold;
+  }
+
+  div {
+    display: flex;
+    align-items: center;
+    gap: 21px;
+
+    div {
+      color: var(--info);
+    }
+  }
+}
+
+.postContent {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+
+  h2 {
+    width: 100%;
+    font-size: 36px;
+    text-align: start;
+  }
+
+  p {
+    color: var(--body);
+    text-align: justify;
+  }
+
 }

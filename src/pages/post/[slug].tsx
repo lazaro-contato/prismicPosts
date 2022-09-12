@@ -4,6 +4,7 @@ import * as prismicH from '@prismicio/helpers';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import Head from 'next/head';
+import { useEffect, useState } from 'react';
 import { getPrismicClient } from '../../services/prismic';
 
 import commonStyles from '../../styles/common.module.scss';
@@ -32,41 +33,51 @@ interface PostProps {
 }
 
 export default function Post({ post }: PostProps) {
-  const postContent = post.data.content;
+  const postData = post.data;
+  const postContent = postData.content.map(item => item);
+  console.log(postContent);
 
   const renderPostContent = () => {
-    const contents = () =>
-      postContent.map(item => {
-        return (
-          <>
-            <h2>{item.heading}</h2>
-            <div>{item.body}</div>
-          </>
-        );
-      });
-
-    contents();
+    console.log(postContent)
+    return (
+      <>
+        {postContent.map(item => {
+          return (
+            <>
+              <h2>{item.heading}</h2>
+              {item.body.map(textData => {
+                return <p>{textData.text}</p>;
+              })}
+            </>
+          );
+        })}
+      </>
+    );
   };
-  console.log(post);
+
   return (
     <>
       <Head>
-        <title>{post.data.title}</title>
+        <title>{postData.title}</title>
       </Head>
+      <div
+        className={styles.imageContainer}
+        style={{ backgroundImage: `url(${postData.banner.url})` }}
+      />
       <main className={styles.container}>
-        <img src={post.data.banner.url} alt={post.data.banner.url} />
-        <h1>{post.data.title}</h1>
+        <h1>{postData.title}</h1>
         <div>
           <div>
             <span>{post.first_publication_date}</span>
           </div>
           <div>
-            <span>{post.data.author}</span>
+            <span>{postData.author}</span>
           </div>
           <div>
             <span>4 Min</span>
           </div>
         </div>
+        <div className={styles.postContent}>{renderPostContent()}</div>
       </main>
     </>
   );
