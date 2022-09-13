@@ -35,11 +35,12 @@ export default function Home({ postsPagination }: HomeProps) {
       <>
         {postsPagination.results.map(post => {
           return (
-            <Link href={`/post/${post.uid}`} prefetch>
-              <div
-                className={styles.postItem}
-                key={Math.random() * Math.random()}
-              >
+            <Link
+              href={`/post/${post.uid}`}
+              prefetch
+              key={Math.random() * Math.random()}
+            >
+              <div className={styles.postItem}>
                 <h2>{post.data.title}</h2>
                 <p>{post.data.subtitle}</p>
                 <div className={styles.dataContainer}>
@@ -101,7 +102,7 @@ export const getStaticProps: GetStaticProps = async ({ previewData }) => {
     props: {
       postsPagination: {
         nextPage: page.next_page,
-        results: posts,
+        results: [posts],
       },
     },
   };
