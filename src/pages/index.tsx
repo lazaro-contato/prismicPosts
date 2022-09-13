@@ -66,7 +66,10 @@ export default function Home({ postsPagination }: HomeProps) {
         <title>spacetraveling</title>
       </Head>
       <main className={styles.container}>
-        <section className={styles.content}>{renderPosts()}</section>
+        <section className={styles.content}>
+          {renderPosts()}
+          <p className={styles.loadPostsButton}>Carregar mais posts</p>
+        </section>
       </main>
     </>
   );
@@ -75,7 +78,7 @@ export default function Home({ postsPagination }: HomeProps) {
 export const getStaticProps: GetStaticProps = async ({ previewData }) => {
   const client = createClient(previewData);
   const page = await client.getByType('post', {
-    pageSize: 4,
+    pageSize: 100,
     fetchLinks: ['post.title', 'post.subtitle'],
   });
 

@@ -1,8 +1,10 @@
+
 .container {
   display: flex;
   align-items: center;
   justify-content: center;
   margin-bottom: 100px;
+  flex-direction: column;
 }
 
 .content {
@@ -54,5 +56,13 @@
     gap: 8px;
   }
 }
+
+.loadPostsButton {
+  color: var(--highlight);
+  font-size: 18px;
+  cursor: pointer;
+  width: 100%;
+}
+
 
 

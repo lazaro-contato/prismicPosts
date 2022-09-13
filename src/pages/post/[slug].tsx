@@ -1,13 +1,5 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
-import * as prismicH from '@prismicio/helpers';
-
-import { format } from 'date-fns';
-import { ptBR } from 'date-fns/locale';
 import Head from 'next/head';
-import { useEffect, useState } from 'react';
-import { getPrismicClient } from '../../services/prismic';
-
-import commonStyles from '../../styles/common.module.scss';
 import styles from './post.module.scss';
 import { createClient, linkResolver } from '../../../prismicio';
 
@@ -35,10 +27,8 @@ interface PostProps {
 export default function Post({ post }: PostProps) {
   const postData = post.data;
   const postContent = postData.content.map(item => item);
-  console.log(postContent);
 
   const renderPostContent = () => {
-    console.log(postContent)
     return (
       <>
         {postContent.map(item => {
@@ -46,7 +36,9 @@ export default function Post({ post }: PostProps) {
             <>
               <h2>{item.heading}</h2>
               {item.body.map(textData => {
-                return <p>{textData.text}</p>;
+                return (
+                  <p dangerouslySetInnerHTML={{ __html: textData.text }} />
+                );
               })}
             </>
           );
@@ -105,6 +97,7 @@ export const getStaticProps: GetStaticProps = async ({
         },
       },
     },
+    revalidate: 60 * 30,
   };
 };
 
